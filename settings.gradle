@@ -1,8 +1,12 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
-        maven { url = "https://repo.papermc.io/repository/maven-public/" }
+        maven { url = "https://repo.papermc.io/repository/maven-snapshot/" }
     }
 }
 
 rootProject.name = 'server-links'
+
+include(':common')
+include(':spigot')
+include(':velocity')

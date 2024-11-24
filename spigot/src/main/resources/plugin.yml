@@ -1,0 +1,20 @@
+name: cx.rain.mc.server_links.ServerLinks
+version: '${plugin_version}'
+main: cx.rain.mc.server_links.spigot.ServerLinksSpigot
+api-version: 1.21
+author: qyl27
+prefix: cx.rain.mc.server_links.ServerLinks
+description: Show server links in Client pause screen.
+load: POSTWORLD
+depend:
+  - ProtocolLib
+commands:
+  serverlinks:
+    aliases:
+      - sl
+    permission: serverlinks.admin
+permissions:
+  serverlinks.user:
+    default: true
+  serverlinks.admin:
+    default: op

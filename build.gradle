@@ -1,13 +1,18 @@
+import java.time.OffsetDateTime
+
 plugins {
     id 'java'
     id 'com.github.johnrengelman.shadow' version '8.1.1'
     id 'com.rikonardo.papermake' version '1.0.6'
+    id 'xyz.jpenilla.run-velocity' version '2.3.1'
 }
 
-group = 'cx.rain.mc'
-version = '1.0.1'
-
 allprojects {
+    apply plugin: 'java'
+
+    group = 'cx.rain.mc'
+    version = '1.1.0'
+
     repositories {
         mavenCentral()
         maven {
@@ -38,25 +43,37 @@ allprojects {
     }
 
     processResources {
-        def props = [version: version]
+        def props = [
+                plugin_version: version,
+                build_time: OffsetDateTime.now()
+        ]
+        def files = [
+                'build_info.properties',
+                'plugin.yml'
+        ]
+
         inputs.properties props
         filteringCharset 'UTF-8'
-        filesMatching('plugin.yml') {
+        filesMatching(files) {
             expand props
         }
     }
-}
 
-compileJava {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
-    options.release = 17
+    compileJava {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+        options.release = 17
+    }
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.21-R0.1-SNAPSHOT'
-    compileOnly 'com.comphenix.protocol:ProtocolLib:5.1.0'
-    compileOnly 'org.jetbrains:annotations:24.0.0'
+    implementation project(':common')
+    implementation project(':spigot')
+    implementation project(':velocity')
 }
 
 jar.finalizedBy(shadowJar)
+
+runVelocity {
+    velocityVersion '3.3.0-SNAPSHOT'
+}
