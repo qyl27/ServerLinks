@@ -1,11 +1,19 @@
 # ServerLinks
-Show your server links in the client pause screen.
+Show your server links in the client pause screen.  
+It is the new features in 1.21, but not disclosed in vanilla.  
+
+Now supported both Velocity and Spigot (and its forks).  
 
 ## Requirements
 - Minecraft >= 1.21
-- ProtocolLib >= 5.1.0
+- Spigot only
+  - ProtocolLib >= 5.1.0
 
 ## Configurations
+
+### Spigot
+File name: `config.yml`
+
 ```yaml
 server-links:
   # Client known types:
@@ -19,9 +27,33 @@ server-links:
     url: "https://www.example.com"
 ```
 
-## Permissions
-- `serverlinks.admin`: For admins who can use `/serverlinks reload` to reload config.
+### Velocity
+File name: `config.conf`
+
+```hocon
+server-links=[
+    {
+        type=WEBSITE
+        url="https://github.com/MeowCraftMC/ServerLinks"
+    },
+    {
+        label="&bCustom example.com"
+        url="https://www.example.com"
+    }
+]
+```
+
+## Command & Permissions
+
+### Spigot
+Use `/serverlinks reload` to reload the config.
+
+- `serverlinks.admin`: For admins who can reload the config.
 - `serverlinks.user`: For users who can see these links.
+
+### Velocity
+Use `/velocity reload` to reload the config.  
+No permissions provided.
 
 ## Screenshots
 ![photo1](https://github.com/MeowCraftMC/ServerLinks/raw/main/img/1.png)

@@ -45,7 +45,7 @@ public class ServerLinksVelocity {
     }
 
     private void loadConfig() {
-        var configFile = dataDir.resolve("links.conf").toFile();
+        var configFile = dataDir.resolve("config.conf").toFile();
 
         var configLoader = HoconConfigurationLoader.builder()
                 .file(configFile)
