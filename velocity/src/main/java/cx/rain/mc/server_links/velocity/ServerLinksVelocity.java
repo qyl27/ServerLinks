@@ -6,8 +6,10 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyReloadEvent;
+import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
+import com.velocitypowered.api.proxy.Player;
 import com.velocitypowered.api.proxy.ProxyServer;
 import cx.rain.mc.server_links.velocity.config.Config;
 import org.slf4j.Logger;
@@ -42,6 +44,7 @@ public class ServerLinksVelocity {
     @Subscribe
     private void onProxyReload(ProxyReloadEvent event) {
         loadConfig();
+        server.getAllPlayers().forEach(this::sendServerLinks);
     }
 
     private void loadConfig() {
@@ -68,7 +71,13 @@ public class ServerLinksVelocity {
     public EventTask onPlayerLoggedIn(PostLoginEvent event) {
         return EventTask.async(() -> {
             var player = event.getPlayer();
-            player.setServerLinks(config.getServerLinks());
+            sendServerLinks(player);
         });
+    }
+
+    private void sendServerLinks(Player player) {
+        if (player.getProtocolVersion().getProtocol() >= ProtocolVersion.MINECRAFT_1_21.getProtocol()) {
+            player.setServerLinks(config.getServerLinks());
+        }
     }
 }
