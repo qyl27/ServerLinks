@@ -11,7 +11,7 @@ allprojects {
     apply plugin: 'java'
 
     group = 'cx.rain.mc'
-    version = '1.1.0'
+    version = '1.1.1'
 
     repositories {
         mavenCentral()
@@ -75,5 +75,5 @@ dependencies {
 jar.finalizedBy(shadowJar)
 
 runVelocity {
-    velocityVersion '3.3.0-SNAPSHOT'
+    velocityVersion '3.4.0-SNAPSHOT'
 }

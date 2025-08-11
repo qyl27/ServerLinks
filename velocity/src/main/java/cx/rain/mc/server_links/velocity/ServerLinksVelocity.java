@@ -6,6 +6,7 @@ import com.velocitypowered.api.event.Subscribe;
 import com.velocitypowered.api.event.connection.PostLoginEvent;
 import com.velocitypowered.api.event.proxy.ProxyInitializeEvent;
 import com.velocitypowered.api.event.proxy.ProxyReloadEvent;
+import com.velocitypowered.api.network.ProtocolVersion;
 import com.velocitypowered.api.plugin.Plugin;
 import com.velocitypowered.api.plugin.annotation.DataDirectory;
 import com.velocitypowered.api.proxy.ProxyServer;
@@ -17,7 +18,7 @@ import java.nio.file.Path;
 
 @Plugin(id = "serverlinks",
         name = "Server Links",
-        version = "1.1.0",
+        version = "1.1.1",
         url = "https://github.com/qyl27/ServerLinks",
         authors = "qyl27")
 public class ServerLinksVelocity {
@@ -68,7 +69,9 @@ public class ServerLinksVelocity {
     public EventTask onPlayerLoggedIn(PostLoginEvent event) {
         return EventTask.async(() -> {
             var player = event.getPlayer();
-            player.setServerLinks(config.getServerLinks());
+            if (player.getProtocolVersion().noLessThan(ProtocolVersion.MINECRAFT_1_21)) {
+                player.setServerLinks(config.getServerLinks());
+            }
         });
     }
 }
